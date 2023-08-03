@@ -1,6 +1,15 @@
 class UsersController < ApplicationController
     protect_from_forgery with: :null_session
-    skip_before_action :verify_authenticity_token
+    before_action :authenticate_request, only: [:index]
+
+    def index
+      if can?(:index, User)
+          @users = User.all
+          render json: {success:true, message: "All users fetched successfully.", data: @users}, status:200
+      else
+          render json: {success:false, message: "You are not admin."}, status:400
+      end
+  end
    
     def login
         user = User.find_by(email: params[:email])
@@ -11,8 +20,12 @@ class UsersController < ApplicationController
           render json: { error: 'Invalid email or password' }, status: :unauthorized
         end
       end
+
       def show
         @user = User.find(params[:id])
         render json: @user, only: :username
       end
 end
+
+
+

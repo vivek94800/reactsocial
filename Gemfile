@@ -9,6 +9,10 @@ gem "rails", "~> 7.0.6"
 gem 'jwt'
 gem 'bcrypt', '~> 3.1.7'
 gem 'simple_command'
+# Gemfile
+gem 'rolify'
+gem 'cancancan'
+
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"

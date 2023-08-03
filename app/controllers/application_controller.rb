@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
     protect_from_forgery with: :null_session
+    before_action :current_user
 
     
     private
@@ -18,6 +19,7 @@ class ApplicationController < ActionController::Base
       end
     end
   
+
     def authenticate_user
       token = request.headers['Authorization']&.split(' ')&.last
       user_id = decode_token(token)
@@ -26,6 +28,10 @@ class ApplicationController < ActionController::Base
       else
         render json: { error: 'Unauthorized' }, status: :unauthorized
       end
+    end
+
+    def current_user
+      return @current_user
     end
 
 end

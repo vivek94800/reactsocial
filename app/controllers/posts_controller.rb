@@ -2,6 +2,7 @@ class PostsController < ApplicationController
   protect_from_forgery with: :null_session
   # skip_before_action :verify_authenticity_token
   before_action :authenticate_user    
+  
   def index
     @posts = Post.includes(:comments, :likes).all
     render json: @posts, include: [:comments, :likes]
@@ -24,13 +25,13 @@ class PostsController < ApplicationController
   
     def destroy
       @post = Post.find(params[:id])
-      if @post.user_id == @current_user.id
+      if(@post.user_id == @current_user.id || can?(:destroy, Post))
         @post.destroy
-        @posts = Post.includes(:comments, :likes).all # Fetch all posts after deletion
-        render json: @posts, include: [:comments, :likes], status: 200 # Return the updated list of posts
-      else
-        render json: { success: false, message: "Post can't be deleted as you didn't make it." }, status: 400
-      end
+        render json: {success:true, message: "Post deleted successfully"}, status: 200
+    else
+        render json: {success:false, message: "Post can't be deleted as you didn't made it."}, status: 400
+    end
+      @posts = Post.includes(:comments, :likes).all # Fetch all posts after deletion
     end
   
     private

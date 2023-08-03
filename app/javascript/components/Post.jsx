@@ -12,7 +12,7 @@ const Post = ({ post, fetchPosts }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [like, setLike] = useState(post.likes || 0);
+  const [like, setLike] = useState(0);
   const [isLiked, setIsLiked] = useState(post.isLiked || false);
   const [comments, setComments] = useState(post.comments || []);
   const [newComment, setNewComment] = useState("");
