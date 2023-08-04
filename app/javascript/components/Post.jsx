@@ -78,9 +78,14 @@ const Post = ({ post, fetchPosts, currentUser, showPrivate  }) => {
   };
 
   const handleAddComment = async () => {
+    console.log("New Comment:", newComment);
+    console.log("Username:", currentUser.username);
+    console.log("Post ID:", post.id);
+
     try {
       const response = await axios.post(`/comments/${post.id}`, {
         content: newComment,
+        username: currentUser.username,
       }, {headers});
       setComments([...comments, response.data]);
       setNewComment("");
@@ -103,7 +108,11 @@ const Post = ({ post, fetchPosts, currentUser, showPrivate  }) => {
   const renderComments = () => {
     return post.comments.map((comment) => (
       <div key={comment.id}>
-        <p>{comment.content}</p>
+
+        <p>
+        <strong>{comment.username}: </strong>
+        {comment.content}
+      </p>
         <button className="button" onClick={() => handleDeleteComment(comment.id)}>
           Delete Comment
         </button>

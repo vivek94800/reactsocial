@@ -26,9 +26,9 @@ class UsersController < ApplicationController
         render json: @user, only: :username
       end
       
-    def current_user
-      return true
-    end
+    # def current_user
+    #   return true
+    # end
 
         
 end
