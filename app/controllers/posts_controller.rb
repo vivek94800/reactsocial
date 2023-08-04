@@ -4,13 +4,18 @@ class PostsController < ApplicationController
   before_action :authenticate_user    
   
   def index
-    @posts = Post.includes(:comments, :likes).all
+    if current_user.has_role?(:admin)
+      @posts = Post.includes(:comments, :likes).all
+    else
+      @posts = Post.includes(:comments, :likes).where("(visibility = true) OR (user_id = ? AND visibility = false)", current_user.id)
+    end
     render json: @posts, include: [:comments, :likes]
     end
   
     def create
-      @post = Post.create(post_params.merge(user_id: @current_user.id)) 
-      render json: @post
+      visibility = params[:visibility] == "private" ? false : true
+    @post = Post.create(post_params.merge(user_id: current_user.id, visibility: visibility))
+    render json: @post
     end
   
     def update

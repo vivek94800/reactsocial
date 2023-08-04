@@ -15,7 +15,7 @@ class UsersController < ApplicationController
         user = User.find_by(email: params[:email])
         if user&.authenticate(params[:password])
           jwt_token = generate_token(user.id)
-          render json: { token: jwt_token }
+          render json: { token: jwt_token ,user: user}
         else
           render json: { error: 'Invalid email or password' }, status: :unauthorized
         end
@@ -25,6 +25,12 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         render json: @user, only: :username
       end
+      
+    def current_user
+      return true
+    end
+
+        
 end
 
 

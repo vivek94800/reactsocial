@@ -23,6 +23,7 @@ post '/comments/:id/unlike', to: 'comments#unlike', as: :unlike_comment
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   get '/users/:id', to: 'users#show'
+  get '/users/current_user', to: 'users#current_user'
 
   # Defines the root path route ("/")
   # root "articles#index"

@@ -2,6 +2,23 @@ class ApplicationController < ActionController::Base
     protect_from_forgery with: :null_session
     before_action :current_user
 
+
+
+    # def current_user
+    #   token = request.headers['Authorization']&.split(' ')&.last
+    #   if token
+    #     user_id = decode_token(token)
+    #     if user_id
+    #       @current_user = User.find_by(id: user_id)
+    #     end
+    #   end
+  
+    #   unless @current_user
+    #     render json: { error: 'No current user' }, status: :not_found
+    #   end
+    # end
+
+
     
     private
 

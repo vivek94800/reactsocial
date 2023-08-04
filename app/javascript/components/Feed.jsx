@@ -5,13 +5,19 @@ import Post from "./Post";
 //import Post from '../post/Post';
 const Feed = () => {
   const [posts, setPosts] = useState([]);
+  const [visibility, setVisibility] = useState("public");
+  const[showPrivate, setShowPrivate] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  //const [currentUser, setCurrentUser] = useState(null);
+
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  console.log('currentUser:', currentUser);
 
    const token= localStorage.getItem('token');
 
    const  headers = {
-    Authorization: token,
+    Authorization: `Bearer ${token}`,
    };
 
    
@@ -50,6 +56,21 @@ const Feed = () => {
   }, []);
 
   // useEffect(() => {
+  //   // Fetch the current user data here and update the state
+  //   const fetchCurrentUser = async () => {
+  //     try {
+  //       const response = await axios.get("/current_user", { headers: { Authorization: `Bearer ${token}` } });
+  //       setCurrentUser(response.data);
+  //     } catch (error) {
+  //       console.error("Error fetching current user:", error);
+  //     }
+  //   };
+
+  //   fetchCurrentUser();
+  // }, [headers]);
+
+
+  // useEffect(() => {
   //   fetchComments();
   // }, [posts]);
 
@@ -57,7 +78,8 @@ const Feed = () => {
     try {
         await axios.post("/posts", {
           title: title, // The title of the post from the state
-          content: content, // The content of the post from the state
+          content: content,
+          visibility: visibility, // The content of the post from the state
         }, {headers});
         setTitle("");
         setContent("");
@@ -85,9 +107,30 @@ const Feed = () => {
           onChange={(e) => setContent(e.target.value)}
         />
         <button  className="button" onClick={handleCreatePost}>Create Post</button>
-      </div>
+        </div>
+        <div>
+          <label>
+            Public
+            <input
+              type="radio"
+              value="public"
+              checked={visibility === "public"}
+              onChange={() => setVisibility("public")}
+            />
+          </label>
+          <label>
+            Private
+            <input
+              type="radio"
+              value="private"
+              checked={visibility === "private"}
+              onChange={() => setVisibility("private")}
+            />
+          </label>
+        </div>
+      
       {Array.isArray(posts) && posts.map((post) => (
-        <Post key={post.id} post={post} fetchPosts={fetchPosts} />
+        <Post key={post.id} post={post} fetchPosts={fetchPosts} showPrivate={showPrivate}  currentUser={currentUser}/>
       ))}
     </div>
   );

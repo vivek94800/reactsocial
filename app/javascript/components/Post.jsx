@@ -8,7 +8,7 @@ import person from "./images/person.png";
 import liak from "./images/liak.png";
 //import Users from "./Users";
 
-const Post = ({ post, fetchPosts }) => {
+const Post = ({ post, fetchPosts, currentUser, showPrivate  }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -17,14 +17,14 @@ const Post = ({ post, fetchPosts }) => {
   const [comments, setComments] = useState(post.comments || []);
   const [newComment, setNewComment] = useState("");
   const [username, setUsername] = useState("");
-
+  const parsedCurrentUser = currentUser;
 
   
 
   const token= localStorage.getItem('token');
 
    const  headers = {
-    Authorization: token,
+    Authorization: `Bearer ${token}`,
    };
 
 
@@ -55,7 +55,7 @@ const Post = ({ post, fetchPosts }) => {
 
   const handleDeletePost = async () => {
     try {
-      await axios.delete(`/posts/${post.id}`, {headers});
+      await axios.delete(`/posts/${post.id}`, { headers });
       fetchPosts();
     } catch (error) {
       console.error("Error deleting post:", error);
@@ -166,6 +166,12 @@ const Post = ({ post, fetchPosts }) => {
           </div>
         </div>
       </div>
+
+      <div>
+      {/* Debug Information */}
+      <p>post.user_id: {post.user_id}</p>
+      <p>parsedCurrentUser?.id: {parsedCurrentUser?.id}</p>
+    </div>
       {isEditing ? (
         <div>
           <button className="button" onClick={handleUpdatePost}>Save</button>
@@ -173,8 +179,18 @@ const Post = ({ post, fetchPosts }) => {
         </div>
       ) : (
         <div>
-          <button className="button" onClick={() => setIsEditing(true)}>Edit</button>
-          <button className="button" onClick={handleDeletePost}>Delete</button>
+          {/* Conditionally render Edit and Delete buttons */}
+          {post.user_id === parsedCurrentUser?.id && (
+            <button className="button" onClick={() => setIsEditing(true)}>
+              Edit
+            </button>
+          ) }
+          {post.user_id === parsedCurrentUser?.id && (
+            <button className="button" onClick={handleDeletePost}>
+              Delete
+            </button>
+          ) }
+
         </div>
       )}
 

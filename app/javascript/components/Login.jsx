@@ -13,6 +13,7 @@ export default function Login() {
       const token = response.data.token;
       // Save the token to local storage or cookie
       localStorage.setItem("token", token);
+      localStorage.setItem("currentUser", JSON.stringify(response.data.user));
       // Redirect to the home page after successful login
       setIsLoggedIn(true);
       
