@@ -5,6 +5,8 @@ class RegistrationController < ApplicationController
    
     def create
       user = User.new(user_params)
+      user.active = true 
+
       if user.save
         jwt_token = generate_token(user.id)
         render json: { token: jwt_token }
@@ -16,7 +18,7 @@ class RegistrationController < ApplicationController
     private
   
     def user_params
-      params.permit(:username, :email, :password, :password_confirmation)
+      params.permit(:username, :email, :password, :password_confirmation, :phone_number)
     end
   end
   

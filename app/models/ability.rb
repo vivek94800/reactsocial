@@ -11,6 +11,7 @@ class Ability
       # can :index, Post
       # can :index, User
       can :manage, :all
+      can :index, User
     else
       can :create, Post
       can :update, Post, user_id: user.id

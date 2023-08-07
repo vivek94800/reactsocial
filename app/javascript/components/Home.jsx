@@ -1,21 +1,25 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Topbar from "./Topbar";
 import Sidebar from "./Sidebar";
 import Feed from "./Feed";
 import Rightbar from "./Rightbar";
-import Login from "./Login";
-import Register from "./Register";
+import ManageUsers from "./ManageUsers";
 
-export default () => (
+export default () => {
+  const [isManageUsersPage, setIsManageUsersPage] = useState(false);
+  console.log("isManageUsersPage:", isManageUsersPage);
+
+  return (
     <>
-    {/* <Login/> */}
-    {/* <Register/> */}
-    <Topbar />
-    <div className="welcomeContainer">
-      <Sidebar />
-      <Feed />
-      <Rightbar />
-    </div>
-  </>
-);
+      
+      <Topbar />
+      <div className="welcomeContainer">
+        <Sidebar setIsManageUsersPage={setIsManageUsersPage} />
+        {isManageUsersPage ? <ManageUsers /> : <Feed />}
+        <Rightbar />
+      </div>
+    </>
+  );
+};

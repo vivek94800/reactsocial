@@ -68,7 +68,7 @@ const Post = ({ post, fetchPosts, currentUser, showPrivate  }) => {
         await axios.delete(`/likes/${post.id}`, {headers});
         setLike((prevLike) => prevLike - 1);
       } else {
-        await axios.post(`/likes/${post.id}`, {headers});
+        await axios.post(`/likes/${post.id}`, {}, {headers});
         setLike((prevLike) => prevLike + 1);
       }
       setIsLiked(!isLiked);
@@ -76,6 +76,20 @@ const Post = ({ post, fetchPosts, currentUser, showPrivate  }) => {
       console.error("Error handling like:", error);
     }
   };
+  useEffect(() => {
+    // Fetch total likes count and isLiked status for the post
+    const fetchTotalLikesAndIsLiked = async () => {
+      try {
+        const response = await axios.get(`/posts/${post.id}/total_likes`, { headers });
+        setLike(response.data.totalLikes);
+        setIsLiked(response.data.isLiked);
+      } catch (error) {
+        console.error("Error fetching total likes:", error);
+      }
+    };
+  
+    fetchTotalLikesAndIsLiked();
+  }, [post.id]);
 
   const handleAddComment = async () => {
     console.log("New Comment:", newComment);
@@ -176,11 +190,12 @@ const Post = ({ post, fetchPosts, currentUser, showPrivate  }) => {
         </div>
       </div>
 
-      <div>
-      {/* Debug Information */}
+      {/* <div>
+      
       <p>post.user_id: {post.user_id}</p>
       <p>parsedCurrentUser?.id: {parsedCurrentUser?.id}</p>
-    </div>
+    </div> */}
+
       {isEditing ? (
         <div>
           <button className="button" onClick={handleUpdatePost}>Save</button>

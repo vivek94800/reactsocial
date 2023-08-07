@@ -10,6 +10,8 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const navigate = useNavigate();
   const handleRegister = () => {
     axios
@@ -18,6 +20,7 @@ export default function Register() {
         email:email,
         password:password,
         password_confirmation: passwordConfirmation,
+        phone_number: phoneNumber,
       })
       .then((response) => {
         console.log("Registration successful!");
@@ -25,8 +28,17 @@ export default function Register() {
         navigate("/login");
       })
       .catch((error) => {
-        console.error("Error registering:", error);
-        // Handle registration errors, e.g., show an error message to the user
+        if (error.response && error.response.data && error.response.data.error) {
+          const errorMessage = error.response.data.error;
+          if (errorMessage.includes("phone_number")) {
+            alert("Invalid phone number format or already taken.");
+          } else {
+            alert(errorMessage);
+          }
+        } else {
+          console.error("Error registering:", error);
+          alert("An error occurred while registering.");
+        }
       });
   };
     return (
@@ -53,6 +65,13 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
+             placeholder="Phone Number"
+             className="loginInput"
+             value={phoneNumber}
+             onChange={(e) => setPhoneNumber(e.target.value)}
+             />
+
+            <input
               placeholder="Password"
               type="password"
               className="loginInput"
@@ -66,6 +85,7 @@ export default function Register() {
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
             />
+            
               <button className="loginButton" onClick={handleRegister}>Sign Up</button>
               <button className="loginRegisterButton">
                 <Link to="/login">Log into Account</Link>

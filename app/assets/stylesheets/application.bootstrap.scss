@@ -22,15 +22,17 @@
 flex: 3;
 display: flex;
 margin-left: 20px;
+align-items: center;
 }
 .logo{
-    font-size: 28px;
+    font-size: 30px;
     margin-left: 10px;
     font-weight: bold;
-    color: rgb(133, 19, 148);
+    color: FFA500;
     cursor: pointer;
     font-style: italic;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 0;
 }
 .topbarCenter{
     flex: 4;
@@ -306,7 +308,7 @@ margin-left: 20px;
   }
 
   .registerBox{
-    height: 400px;
+    height: 500px;
     padding: 20px;
     background-color: white;
     border-radius: 10px;
@@ -328,3 +330,62 @@ margin-left: 20px;
 .comment{
     margin-left: 10px;
 }
+
+
+/* ManageUsers.css */
+.ManageUser {
+    flex: 9;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .manageuserList {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .manageuserItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #293241;
+    border-radius: 5px;
+    background-color: white;
+  }
+  
+  .manageusername {
+    font-weight: bold;
+  }
+  
+  .managestatus {
+    font-style:normal;
+  }
+  
+  .manageactive {
+    color: green;
+  }
+  
+  .manageinactive {
+    color: red;
+  }
+  
+  .managetoggleButton {
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+  }
+  
+  .manageactivateButton {
+    background-color: green;
+    color: white;
+  }
+  
+  .managedeactivateButton {
+    background-color: rgb(223, 65, 54);
+    color: white;
+  }
+  

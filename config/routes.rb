@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # Likes
   post '/likes/:post_id', to: 'likes#create'
   delete '/likes/:post_id', to: 'likes#destroy'
+  get '/posts/:post_id/total_likes', to: 'posts#total_likes'
 
   # Comments
   get '/posts/:post_id/comments', to: 'comments#post_comments'
@@ -24,6 +25,9 @@ post '/comments/:id/unlike', to: 'comments#unlike', as: :unlike_comment
 
   get '/users/:id', to: 'users#show'
   get '/users/current_user', to: 'users#current_user'
+  get '/users', to: 'users#index'
+  put '/users/:id/activate_deactivate', to: 'users#activate_deactivate' 
+
 
   # Defines the root path route ("/")
   # root "articles#index"

@@ -4,6 +4,8 @@ class User < ApplicationRecord
     has_many :posts, dependent: :destroy
 
     after_create :assign_role
+    validates :email, presence: true, uniqueness: true
+    validates :phone_number, presence: true, uniqueness: true, format: { with: /\A\d{10}\z/, message: "given is in invalid format." }
 
     private
 

@@ -38,6 +38,14 @@ class PostsController < ApplicationController
     end
       @posts = Post.includes(:comments, :likes).all # Fetch all posts after deletion
     end
+
+    def total_likes
+      post = Post.find(params[:post_id])
+      total_likes = post.likes.count
+      is_liked = post.likes.where(user_id: current_user.id).exists? if current_user
+    
+      render json: { totalLikes: total_likes, isLiked: is_liked }
+    end
   
     private
   
