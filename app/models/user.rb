@@ -2,6 +2,8 @@ class User < ApplicationRecord
   rolify
     has_secure_password
     has_many :posts, dependent: :destroy
+    has_many :comments, dependent: :destroy
+    has_many :likes, dependent: :destroy
 
     after_create :assign_role
     validates :email, presence: true, uniqueness: true

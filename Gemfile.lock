@@ -72,11 +72,17 @@ GEM
       msgpack (~> 1.2)
     builder (3.2.4)
     cancancan (3.5.0)
+    caxlsx (3.4.1)
+      htmlentities (~> 4.3, >= 4.3.4)
+      marcel (~> 1.0)
+      nokogiri (~> 1.10, >= 1.10.4)
+      rubyzip (>= 1.3.0, < 3)
     coderay (1.1.3)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     cssbundling-rails (1.2.0)
       railties (>= 6.0.0)
+    csv (3.2.7)
     date (3.3.3)
     debug (1.8.0)
       irb (>= 1.5.0)
@@ -84,6 +90,7 @@ GEM
     erubi (1.12.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    htmlentities (4.3.4)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     io-console (0.6.0)
@@ -162,6 +169,7 @@ GEM
     reline (0.3.7)
       io-console (~> 0.5)
     rolify (6.0.1)
+    rubyzip (2.3.2)
     simple_command (1.0.1)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
@@ -197,7 +205,9 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   cancancan
+  caxlsx (~> 3.0, >= 3.0.2)
   cssbundling-rails
+  csv
   debug
   jbuilder
   jsbundling-rails

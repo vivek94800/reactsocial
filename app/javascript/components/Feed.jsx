@@ -3,7 +3,7 @@ import axios from "axios";
 import Post from "./Post";
 
 //import Post from '../post/Post';
-const Feed = ({ isManageUsersPage }) => {
+const Feed = ({ setIsManageUsersPage, setIsReportsPage }) => {
   const [posts, setPosts] = useState([]);
   const [visibility, setVisibility] = useState("public");
   const[showPrivate, setShowPrivate] = useState(false);

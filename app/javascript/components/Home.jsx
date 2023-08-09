@@ -6,9 +6,11 @@ import Sidebar from "./Sidebar";
 import Feed from "./Feed";
 import Rightbar from "./Rightbar";
 import ManageUsers from "./ManageUsers";
+import Reports from "./Reports";
 
 export default () => {
   const [isManageUsersPage, setIsManageUsersPage] = useState(false);
+  const [isReportsPage, setIsReportsPage] = useState(false); 
   console.log("isManageUsersPage:", isManageUsersPage);
 
   return (
@@ -16,8 +18,17 @@ export default () => {
       
       <Topbar />
       <div className="welcomeContainer">
-        <Sidebar setIsManageUsersPage={setIsManageUsersPage} />
-        {isManageUsersPage ? <ManageUsers /> : <Feed />}
+      <Sidebar
+          setIsManageUsersPage={setIsManageUsersPage}
+          setIsReportsPage={setIsReportsPage} // Pass setIsReportsPage to Sidebar
+        />
+        {isManageUsersPage ? (
+          <ManageUsers />
+        ) : isReportsPage ? ( // Render Reports component when isReportsPage is true
+          <Reports />
+        ) : (
+          <Feed />
+        )}
         <Rightbar />
       </div>
     </>

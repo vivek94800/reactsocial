@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
     
       def destroy
         @comment = Comment.find(params[:id])
-        if can?(:destroy, @comment) || (@comment.user_id == @current_user.id)
+        if can?(:destroy, @comment) || (@comment.user_id == @current_user.id) || (@comment.post.user_id == @current_user.id)
           @comment.destroy
           render json: {success:true, message:"Comment destroyed successfully"}
         else

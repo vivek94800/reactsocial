@@ -5,8 +5,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
-export default function Sidebar({ setIsManageUsersPage }) {
+export default function Sidebar({ setIsManageUsersPage, setIsReportsPage }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -44,6 +45,19 @@ export default function Sidebar({ setIsManageUsersPage }) {
               <span className="sidebarListItemText">Manage Users</span>
             </li>
           )}
+          
+          {userEmail === "admin@gmail.com" && (
+            <li
+            className="sidebarListItem"
+            onClick={() => {
+              setIsManageUsersPage(false);
+              setIsReportsPage(true); // Set isReportsPage to true when clicking on Reports
+            }}>
+            <CloudDownloadIcon className="sidebarIcon"/>
+            <span className="sidebarListItemText"> Reports</span>
+            </li>
+          )}
+          
           <li className="sidebarListItem" onClick={handleLogout}>
             <LogoutIcon className="sidebarIcon"/>
             <span className="sidebarListItemText">Logout</span>

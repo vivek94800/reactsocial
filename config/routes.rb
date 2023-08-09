@@ -23,11 +23,14 @@ Rails.application.routes.draw do
 post '/comments/:id/unlike', to: 'comments#unlike', as: :unlike_comment
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  get '/users/:id', to: 'users#show'
+
   get '/users/current_user', to: 'users#current_user'
   get '/users', to: 'users#index'
   put '/users/:id/activate_deactivate', to: 'users#activate_deactivate' 
 
+  #reports
+  get '/users/export_users_data', to: 'users#export_users_data', as: :export_users_data
+  get '/users/:id', to: 'users#show'
 
   # Defines the root path route ("/")
   # root "articles#index"
