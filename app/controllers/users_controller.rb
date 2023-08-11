@@ -3,6 +3,8 @@ class UsersController < ApplicationController
     before_action :authenticate_user, except: [:login]
     require 'csv'
     require 'roo'
+    require 'sendgrid-ruby'
+    include SendGrid
 
 
     def index
@@ -80,6 +82,7 @@ class UsersController < ApplicationController
         if file.present?
           users_data = parse_uploaded_file(file)
           create_users_from_data(users_data)
+          send_upload_notification_email(users_data.count)
           render json: { success: true, message: 'Users uploaded successfully.' }
         else
           render json: { success: false, message: 'No file uploaded.' }, status: :unprocessable_entity
@@ -92,6 +95,21 @@ class UsersController < ApplicationController
 
 
     private
+
+    def send_upload_notification_email(user_count)
+      from = Email.new(email: 'bala.krishna@jarvis.consulting') 
+      to = Email.new(email: 'vivekmshirdhonkar@gmail.com')     
+      subject = 'Users Upload Notification'
+      content = Content.new(type: 'text/plain', value: "#{user_count-1} users were uploaded successfully.")
+      mail = SendGrid::Mail.new(from, subject, to, content)
+  
+      sg = SendGrid::API.new(api_key: SendGrid::API_KEY)
+      response = sg.client.mail._('send').post(request_body: mail.to_json)
+  
+      puts response.status_code
+      puts response.body
+      puts response.headers
+    end
 
     def generate_report_data(users)
       users.map do |user|
