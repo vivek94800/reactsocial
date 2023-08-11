@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 
-const ManageUsers = () => {
+const ManageUsers = ({ onSectionChange }) => {
   const [users, setUsers] = useState([]);
   const [newUserData, setNewUserData] = useState({
     username: "",

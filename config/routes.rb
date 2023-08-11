@@ -5,6 +5,7 @@ Rails.application.routes.draw do
  post '/register', to: 'registration#create'
   # Posts
   get '/posts', to: 'posts#index'
+  get '/posts/export_posts_data', to: 'posts#export_posts_data'
   get '/posts/:id', to: 'posts#show'
   post '/posts', to: 'posts#create'
   patch '/posts/:id', to: 'posts#update'
@@ -31,6 +32,7 @@ post '/comments/:id/unlike', to: 'comments#unlike', as: :unlike_comment
   #reports
   get '/users/export_users_data', to: 'users#export_users_data', as: :export_users_data
   get '/users/:id', to: 'users#show'
+  post "/users/upload_users_data", to: "users#upload_users_data"
 
   # Defines the root path route ("/")
   # root "articles#index"

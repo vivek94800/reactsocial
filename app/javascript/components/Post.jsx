@@ -127,7 +127,7 @@ const Post = ({ post, fetchPosts, currentUser, showPrivate  }) => {
         <strong>{comment.username}: </strong>
         {comment.content}
       </p>
-      {parsedCurrentUser?.id === comment.user_id || parsedCurrentUser?.id === 13 || parsedCurrentUser?.id === post.user_id && (
+      {(parsedCurrentUser?.id === comment.user_id || parsedCurrentUser?.id === 13 || parsedCurrentUser?.id === post.user_id )&& (
   <button className="button" onClick={() => handleDeleteComment(comment.id)}>
     Delete Comment
   </button>

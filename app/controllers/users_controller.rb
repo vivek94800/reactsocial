@@ -2,6 +2,7 @@ class UsersController < ApplicationController
     protect_from_forgery with: :null_session
     before_action :authenticate_user, except: [:login]
     require 'csv'
+    require 'roo'
 
 
     def index
@@ -51,7 +52,13 @@ class UsersController < ApplicationController
     def export_users_data
       if can?(:index, User) # Check if the user has the ability to view user data
         users = User.includes(:posts, :comments, :likes)
-  
+
+        include_users_with_10_posts = params[:include_users_with_10_posts] == "true"
+    
+        if include_users_with_10_posts
+         users = users.select { |user| user.posts.count > 10 }
+       end
+    
         respond_to do |format|
           format.json { render json: generate_report_data(users) }
           if current_user.has_role?(:admin) # Check if the current user is an admin
@@ -66,6 +73,23 @@ class UsersController < ApplicationController
         render json: { success: false, message: "You are not admin." }, status: 400
       end
     end
+
+    def upload_users_data
+      if current_user.has_role?(:admin) # Check if the current user is an admin
+        file = params[:file]
+        if file.present?
+          users_data = parse_uploaded_file(file)
+          create_users_from_data(users_data)
+          render json: { success: true, message: 'Users uploaded successfully.' }
+        else
+          render json: { success: false, message: 'No file uploaded.' }, status: :unprocessable_entity
+        end
+      else
+        render json: { success: false, message: 'You are not authorized to upload users.' }, status: :unauthorized
+      end
+    end
+   
+
 
     private
 
@@ -101,6 +125,42 @@ class UsersController < ApplicationController
         end
       end.to_stream.read
     end
+
+    def parse_uploaded_file(file)
+      case File.extname(file.original_filename)
+      when '.csv'
+        Roo::CSV.new(file.path)
+      when '.xlsx'
+        Roo::Excelx.new(file.path)
+      else
+        raise 'Invalid file format'
+      end
+    end
+    
+    def create_users_from_data(data)
+      header = data.row(1) # Assuming the first row contains headers
+    
+      (2..data.last_row).each do |i|
+        row = Hash[[header, data.row(i)].transpose]
+        puts "Processing row #{i}: #{row}"
+        # phone_number = row['phone_number']
+        row["phone_number"] = row["phone_number"].to_i.to_s 
+
+  # if phone_number =~ /\A\d{10}\z/
+  #   # Proceed with user creation
+  # else
+  #   puts "Invalid phone number format for row #{i}: #{phone_number}"
+  #   # Handle this case as needed (e.g., skip this row, show an error message, etc.)
+  # end
+        user = User.new(row)
+        if user.save
+          puts "User created successfully: #{user.inspect}"
+        else
+          puts "User creation failed for row #{i}: #{user.errors.full_messages}"
+        end
+      end
+    end
+    
   end
 
       

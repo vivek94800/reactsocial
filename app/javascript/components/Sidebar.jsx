@@ -7,7 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
 import CloudDownloadIcon from '@mui/icons-material/CloudDownload';
 
-export default function Sidebar({ setIsManageUsersPage, setIsReportsPage }) {
+export default function Sidebar({ onSectionChange }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -28,10 +28,7 @@ export default function Sidebar({ setIsManageUsersPage, setIsReportsPage }) {
     <div className="sidebar">
       <div className="sidebarWrapper">
         <ul className="sidebarList">
-          <li className="sidebarListItem" onClick={() => {
-  setIsManageUsersPage(false);
-  console.log("Clicked on Feed");
-}}>
+          <li className="sidebarListItem" onClick={() => onSectionChange("feed")}>
             <DynamicFeedIcon className="sidebarIcon"/>
             <span className="sidebarListItemText">Feed</span>
           </li>
@@ -40,7 +37,7 @@ export default function Sidebar({ setIsManageUsersPage, setIsReportsPage }) {
             <span className="sidebarListItemText">Profile</span>
           </li>
           {userEmail === "admin@gmail.com" && (
-            <li className="sidebarListItem" onClick={() => setIsManageUsersPage(true)}>
+            <li className="sidebarListItem" onClick={() => onSectionChange("manageUsers")}>
               <ManageAccountsIcon className="sidebarIcon"/>
               <span className="sidebarListItemText">Manage Users</span>
             </li>
@@ -49,10 +46,7 @@ export default function Sidebar({ setIsManageUsersPage, setIsReportsPage }) {
           {userEmail === "admin@gmail.com" && (
             <li
             className="sidebarListItem"
-            onClick={() => {
-              setIsManageUsersPage(false);
-              setIsReportsPage(true); // Set isReportsPage to true when clicking on Reports
-            }}>
+            onClick={() => onSectionChange("reports")}>
             <CloudDownloadIcon className="sidebarIcon"/>
             <span className="sidebarListItemText"> Reports</span>
             </li>

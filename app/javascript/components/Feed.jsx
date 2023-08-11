@@ -3,7 +3,7 @@ import axios from "axios";
 import Post from "./Post";
 
 //import Post from '../post/Post';
-const Feed = ({ setIsManageUsersPage, setIsReportsPage }) => {
+const Feed = ({ onSectionChange }) => {
   const [posts, setPosts] = useState([]);
   const [visibility, setVisibility] = useState("public");
   const[showPrivate, setShowPrivate] = useState(false);
@@ -93,7 +93,7 @@ const Feed = ({ setIsManageUsersPage, setIsReportsPage }) => {
   return (
     <div className="feed">
       <h1 >Feeds</h1>
-      <div>
+      <div className="create-post-form">
         <input
           type="text"
           placeholder="Title"
@@ -106,22 +106,24 @@ const Feed = ({ setIsManageUsersPage, setIsReportsPage }) => {
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />
-        <button  className="button" onClick={handleCreatePost}>Create Post</button>
+        <button  className="create-post-button" onClick={handleCreatePost}>Create Post</button>
         </div>
-        <div>
+        <div className="visibility-options">
           <label>
-            Public
+             <span className="visibility-text">Public</span>&nbsp;
             <input
               type="radio"
+              className="visibility-radio"
               value="public"
               checked={visibility === "public"}
               onChange={() => setVisibility("public")}
             />
           </label>
           <label>
-            Private
+          <span className="visibility-text">Private</span>&nbsp;
             <input
               type="radio"
+              className="visibility-radio"
               value="private"
               checked={visibility === "private"}
               onChange={() => setVisibility("private")}

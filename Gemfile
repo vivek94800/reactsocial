@@ -40,6 +40,10 @@ gem "jbuilder"
 
 gem 'csv'
 gem 'caxlsx', '~> 3.0', '>= 3.0.2'
+gem 'sendgrid-ruby'
+gem 'roo'
+
+
 
 
 

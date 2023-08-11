@@ -9,26 +9,24 @@ import ManageUsers from "./ManageUsers";
 import Reports from "./Reports";
 
 export default () => {
-  const [isManageUsersPage, setIsManageUsersPage] = useState(false);
-  const [isReportsPage, setIsReportsPage] = useState(false); 
-  console.log("isManageUsersPage:", isManageUsersPage);
+  const [activeSection, setActiveSection] = useState("feed"); // Default active section is "feed"
+
+  const handleSectionChange = (section) => {
+    setActiveSection(section);
+  };
+
+ 
 
   return (
     <>
       
       <Topbar />
       <div className="welcomeContainer">
-      <Sidebar
-          setIsManageUsersPage={setIsManageUsersPage}
-          setIsReportsPage={setIsReportsPage} // Pass setIsReportsPage to Sidebar
-        />
-        {isManageUsersPage ? (
-          <ManageUsers />
-        ) : isReportsPage ? ( // Render Reports component when isReportsPage is true
-          <Reports />
-        ) : (
-          <Feed />
-        )}
+      <Sidebar onSectionChange={handleSectionChange} />
+        {/* Render the appropriate component based on the active section */}
+        {activeSection === "feed" && <Feed />}
+        {activeSection === "reports" && <Reports />}
+        {activeSection === "manageUsers" && <ManageUsers />}
         <Rightbar />
       </div>
     </>
